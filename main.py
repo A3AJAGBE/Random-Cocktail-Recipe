@@ -1,5 +1,9 @@
 from tkinter import *
 import requests
+import io
+from urllib.request import urlopen
+# installed pillow
+from PIL import Image, ImageTk
 
 COCKTAIL_ENDPOINT = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 response = requests.get(COCKTAIL_ENDPOINT)
@@ -11,6 +15,22 @@ interface.title("A3AJAGBE RANDOM COCKTAIL RECIPE")
 interface.config(padx=30, pady=30)
 
 # Layout
+cocktail_image = data[0]['strDrinkThumb']
+canvas = Canvas(width=200, height=200)
+image_url = f"{cocktail_image}/preview"
+
+# Read the image from the url
+image = urlopen(image_url)
+# create an image file object
+image = io.BytesIO(image.read())
+# use PIL to open image formats like .jpg  .png  .gif  etc.
+image = Image.open(image)
+# convert to an image Tkinter can use
+cocktail_picture = ImageTk.PhotoImage(image)
+
+canvas.create_image(100, 100, image=cocktail_picture)
+canvas.grid(row=0, column=0, columnspan=2)
+
 cocktail_name = data[0]["strDrink"]
 name_label = Label(text="Name: ")
 name_label.grid(row=1, column=0)
