@@ -5,8 +5,15 @@ COCKTAIL_ENDPOINT = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
 response = requests.get(COCKTAIL_ENDPOINT)
 response.raise_for_status()
 data = response.json()['drinks']
-print(data)
+# print(data)
 
+
+# Get the cocktail details
+cocktail_name = data[0]["strDrink"]
+cocktail_glass = data[0]["strGlass"]
+cocktail_status = data[0]["strAlcoholic"]
+cocktail_instruction = data[0]['strInstructions']
+print(f"Name: {cocktail_name}\nStatus: {cocktail_status}\nGlass: {cocktail_glass}\nInstruction: {cocktail_instruction}")
 
 
 # interface = Tk()
