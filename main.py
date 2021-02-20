@@ -38,6 +38,7 @@ interface.config(padx=30, pady=30)
 FONT = ("Courier", 40, "bold")
 SUB_FONT = ("Courier", 20, "normal")
 TEXT = ("Courier", 15, "italic")
+COLOR = "#cc6699"
 
 # Interface Layout
 cocktail_image = data[0]['strDrinkThumb']
@@ -57,7 +58,7 @@ canvas.create_image(100, 100, image=cocktail_picture)
 canvas.grid(row=0, column=0, columnspan=2)
 
 cocktail_name = data[0]["strDrink"]
-name_label = Label(text=cocktail_name, fg="#cc6699", font=FONT)
+name_label = Label(text=cocktail_name, fg=COLOR, font=FONT)
 name_label.grid(row=1, column=0, columnspan=2)
 
 cocktail_status = data[0]["strAlcoholic"]
@@ -65,8 +66,8 @@ status_label = Label(text=f"{cocktail_status} Cocktail", font=SUB_FONT)
 status_label.grid(row=2, column=0, columnspan=2)
 
 cocktail_instruction = data[0]['strInstructions']
-canvas = Canvas(width=300, height=150, bg="#cc6699")
-canvas.create_text(150, 75, text=cocktail_instruction, width=250, font=TEXT, fill="white")
+canvas = Canvas(width=500, height=200, bg=COLOR)
+canvas.create_text(250, 100, text=cocktail_instruction, width=450, font=TEXT, fill="white")
 canvas.grid(row=3, column=0, columnspan=2)
 
 ingredients = Listbox(width=40, font=TEXT)
@@ -78,6 +79,10 @@ for data in new_dict:
     result = f"{data} / {m}"
     ingredients.insert(num, result)
 ingredients.grid(row=4, column=0, columnspan=2, pady=20)
+
+button = Button(text="Next", fg=COLOR, width=20)
+button.config(highlightthickness=0, padx=5, pady=5, font=SUB_FONT)
+button.grid(row=5, column=0, columnspan=2)
 
 # Keep the screen open until exited
 interface.mainloop()
