@@ -19,9 +19,18 @@ for num in range(1, 16):
         add = f"{num}. {cocktail_ingredient}"
         ingredients_list.append(add)
 
-print(ingredients_list)
+# Get ingredients measurements
+measurement_list = []
+for num in range(1, 16):
+    measure = f"strMeasure{num}"
+    cocktail_measurement = data[0][measure]
+    if cocktail_measurement is not None:
+        measurement_list.append(cocktail_measurement)
 
+# combine the two lists
+new_dict = {k: v for k, v in zip(ingredients_list, measurement_list)}
 
+# UI setup
 interface = Tk()
 interface.title("A3AJAGBE RANDOM COCKTAIL RECIPE")
 interface.config(padx=30, pady=30)
@@ -64,19 +73,20 @@ status = Entry()
 status.insert(END, cocktail_status)
 status.grid(row=3, column=1)
 
-ingredients_label = Label(text="Ingredients: ")
-ingredients_label.grid(row=4, column=0)
-ingredients = Listbox()
-num = 0
-for i in ingredients_list:
-    num += 1
-    ingredients.insert(num, i)
-ingredients.grid(row=4, column=1, pady=20)
-
 cocktail_instruction = data[0]['strInstructions']
 canvas = Canvas(width=300, height=150, bg="#0066ff")
 canvas.create_text(150, 75, text=cocktail_instruction, width=250, font=("italic",), fill="white")
-canvas.grid(row=5, column=0, columnspan=2)
+canvas.grid(row=4, column=0, columnspan=2)
+
+ingredients = Listbox(width=40)
+ingredients.insert(1, "The Cocktail Recipe: ")
+num = 1
+for data in new_dict:
+    num += 1
+    m = new_dict[data]
+    result = f"{data} / {m}"
+    ingredients.insert(num, result)
+ingredients.grid(row=5, column=0, columnspan=2, pady=20)
 
 # Keep the screen open until exited
 interface.mainloop()
