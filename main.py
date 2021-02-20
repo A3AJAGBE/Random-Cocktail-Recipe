@@ -10,6 +10,18 @@ response = requests.get(COCKTAIL_ENDPOINT)
 response.raise_for_status()
 data = response.json()['drinks']
 
+# Get the list of ingredients
+ingredients_list = []
+for num in range(1, 16):
+    item = f"strIngredient{num}"
+    cocktail_ingredient = data[0][item]
+    if cocktail_ingredient is not None:
+        add = f"{num}. {cocktail_ingredient}"
+        ingredients_list.append(add)
+
+print(ingredients_list)
+
+
 interface = Tk()
 interface.title("A3AJAGBE RANDOM COCKTAIL RECIPE")
 interface.config(padx=30, pady=30)
@@ -55,14 +67,15 @@ status.grid(row=3, column=1)
 ingredients_label = Label(text="Ingredients: ")
 ingredients_label.grid(row=4, column=0)
 ingredients = Listbox()
-ingredients.insert(1, "1. Bread")
-ingredients.insert(2, "2. Milk")
-ingredients.insert(3, "3. Meat")
+num = 0
+for i in ingredients_list:
+    num += 1
+    ingredients.insert(num, i)
 ingredients.grid(row=4, column=1, pady=20)
 
 cocktail_instruction = data[0]['strInstructions']
 canvas = Canvas(width=300, height=150, bg="#0066ff")
-canvas.create_text(150, 75, text=cocktail_instruction, width=250, font=("Tahoma", 15, "italic"), fill="white")
+canvas.create_text(150, 75, text=cocktail_instruction, width=250, font=("italic",), fill="white")
 canvas.grid(row=5, column=0, columnspan=2)
 
 # Keep the screen open until exited
